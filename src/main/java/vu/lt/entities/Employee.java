@@ -38,4 +38,8 @@ public class Employee implements Serializable {
     @ManyToMany
     @EqualsAndHashCode.Exclude
     private List<Package> deliveries = new ArrayList<>();
+
+    public void removeDelivery(Package pkg){
+        this.deliveries.removeIf(rec -> rec.getId().equals(pkg.getId()));
+    }
 }

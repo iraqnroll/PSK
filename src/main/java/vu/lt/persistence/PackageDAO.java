@@ -2,6 +2,7 @@ package vu.lt.persistence;
 
 import vu.lt.entities.Customer;
 import vu.lt.entities.Employee;
+import vu.lt.entities.Package;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -16,6 +17,10 @@ public class PackageDAO {
 
     public void create(Package pkg){
         em.persist(pkg);
+    }
+
+    public void delete(Package pkg){
+        em.remove(pkg);
     }
 
     public Package findById(Integer id){

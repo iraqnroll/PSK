@@ -5,8 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,21 +23,30 @@ import java.util.List;
 })
 public class Package implements Serializable {
 
+    public Package(float weight, Customer sender, Customer receiver, String shipAddress){
+        this.setWeight(weight);
+        this.setSender(sender);
+        this.setReceiver(receiver);
+        this.setShipAddress(shipAddress);
+    }
+
+    public Package(){}
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotEmpty
+    @DecimalMin("0.001")
     @EqualsAndHashCode.Exclude
     @Column(name = "PACKAGE_WEIGHT")
     private float weight;
 
     @ManyToOne
-    @NotEmpty
+    @NotNull
     private Customer sender;
 
     @ManyToOne
-    @NotEmpty
+    @NotNull
     private Customer receiver;
 
     @Size(max = 50)
@@ -49,4 +57,11 @@ public class Package implements Serializable {
     @ManyToMany(mappedBy = "deliveries")
     @EqualsAndHashCode.Exclude
     private List<Employee> couriers = new ArrayList<>();
+
+    @PreRemove
+    private void removePackageFromDeliveries(){
+        for(Employee courier : couriers){
+            courier.removeDelivery(this);
+        }
+    }
 }

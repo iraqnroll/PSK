@@ -43,4 +43,9 @@ public class Customer implements Serializable {
     @OneToMany(mappedBy = "sender")
     @EqualsAndHashCode.Exclude
     private List<Package> packagesToSend = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return this.name + " " + this.surname;
+    }
 }

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head/>
+<h:body>
+    <h2>
+        <h:outputText value="#{employeeDetails.currentEmployee.name} #{employeeDetails.currentEmployee.surname} details:"/>
+    </h2>
+    <h3>Packages to deliver:</h3>
+    <h:dataTable value="#{employeeDetails.currentEmployee.deliveries}" var="packageToDeliver" border="1">
+        <h:column>
+            <f:facet name="header">ID</f:facet>
+            #{packageToDeliver.id}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Receiver</f:facet>
+            #{packageToDeliver.receiver.name} #{packageToDeliver.receiver.surname}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Shipping address</f:facet>
+            #{packageToDeliver.shipAddress}
+        </h:column>
+    </h:dataTable>
+    <h2>Set package for delivery</h2>
+    <h:form>
+        <h:panelGrid columns="1">
+            <h:outputLabel for="package">Package</h:outputLabel>
+            <h:selectOneMenu id="package" value="#{employeeDetails.selectedPackageId}" label="Package">
+                <f:selectItems value="#{employeeDetails.packageList}" var="rec"
+                               itemLabel="#{rec.receiver.name} #{rec.receiver.surname} #{rec.shipAddress}" itemValue="#{rec.id}"/>
+            </h:selectOneMenu>
+            <br />
+            <h:commandButton value="Set" action="#{employeeDetails.setCourier()}">
+                <f:param name="employeeId" value="#{employeeDetails.currentEmployee.id}"/>
+            </h:commandButton>
+        </h:panelGrid>
+    </h:form>
+</h:body>
+</html>

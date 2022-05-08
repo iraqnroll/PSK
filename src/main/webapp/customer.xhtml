@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head/>
+<h:body>
+    <h2>
+        <h:outputText value="#{customerDetails.customer.name} #{customerDetails.customer.surname} details:"/>
+    </h2>
+    <h3>Packages to receive :</h3>
+    <h:dataTable value="#{customerDetails.customer.packagesToReceive}" var="packageToReceive" border="1">
+        <h:column>
+            <f:facet name="header">ID</f:facet>
+            #{packageToReceive.id}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Weight</f:facet>
+            #{packageToReceive.weight}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Shipping address</f:facet>
+            #{packageToReceive.shipAddress}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Sender</f:facet>
+            #{packageToReceive.sender.name} #{packageToReceive.sender.surname}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Details</f:facet>
+            <h:link value=" Details..." outcome="package?packageId=#{packageToReceive.id}"/>
+        </h:column>
+    </h:dataTable>
+    <h3>Packages to send :</h3>
+    <h:dataTable value="#{customerDetails.customer.packagesToSend}" var="packageToSend" border="1">
+        <h:column>
+            <f:facet name="header">ID</f:facet>
+            #{packageToSend.id}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Weight</f:facet>
+            #{packageToSend.weight}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Shipping address</f:facet>
+            #{packageToSend.shipAddress}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Receiver</f:facet>
+            #{packageToSend.receiver.name} #{packageToSend.receiver.surname}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Details</f:facet>
+            <h:link value=" Details..." outcome="package?packageId=#{packageToSend.id}"/>
+        </h:column>
+    </h:dataTable>
+
+    <h2>Send a package</h2>
+    <h:form>
+        <h:panelGrid columns="3">
+            <h:outputLabel for="weight">Package weight</h:outputLabel>
+            <h:inputText id="weight" value="#{customerDetails.packageToSendWeight}" required="true" label="Package weight"/>
+            <br />
+            <h:outputLabel for="address">Shipping address</h:outputLabel>
+            <h:inputText id="address" value="#{customerDetails.packageToSendShipAddress}" required="true" label="Shipping Address"/>
+            <br />
+            <h:outputLabel for="receiver">Package receiver</h:outputLabel>
+            <h:selectOneMenu id="receiver" value="#{customerDetails.receiverId}" label="Receiver">
+                <f:selectItems value="#{customerDetails.receiverList}" var="rec"
+                               itemLabel="#{rec.name} #{rec.surname}" itemValue="#{rec.id}"/>
+            </h:selectOneMenu>
+            <br />
+            <h:commandButton value="Send" action="#{customerDetails.sendPackage}">
+                <f:param name="customerId" value="#{customerDetails.customer.id}"/>
+            </h:commandButton>
+        </h:panelGrid>
+    </h:form>
+    <h2>Cancel sent package : </h2>
+    <h:form>
+        <h:panelGrid columns="1">
+            <h:outputLabel for="package">Package</h:outputLabel>
+            <h:selectOneMenu id="package" value="#{customerDetails.packageToCancelId}" label="Package">
+                <f:selectItems value="#{customerDetails.customer.packagesToSend}" var="pack"
+                               itemLabel="#{pack.receiver.name} #{pack.receiver.surname} #{pack.shipAddress}" itemValue="#{pack.id}"/>
+            </h:selectOneMenu>
+            <br />
+            <h:commandButton value="Cancel" action="#{customerDetails.cancelPackage}">
+                <f:param name="customerId" value="#{customerDetails.customer.id}"/>
+            </h:commandButton>
+        </h:panelGrid>
+    </h:form>
+</h:body>
+</html>

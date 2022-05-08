@@ -8,15 +8,41 @@
 <h:body>
     <h2>Customers:</h2>
     <ol>
-        <ui:repeat value="#{customers.allCustomers}" var="customer">
-            <li><h:outputText value="#{customer.name}"/></li>
-            <li><h:outputText value="#{customer.surname}"/> </li>
+        <ui:repeat value="#{users.allCustomers}" var="customer">
+            <li>
+                <h:outputText value="#{customer.name} #{customer.surname} | "/>
+                <h:link value=" Details..." outcome="customer?customerId=#{customer.id}"/>
+            </li>
         </ui:repeat>
     </ol>
     <h:form>
-        <h:inputText value="#{customers.customerToCreate.name}" required="true" />
-        <h:inputText value="#{customers.customerToCreate.surname}" required="true" />
-        <h:commandButton value="Add a new customer" action="#{customers.createCustomer}" />
+        <h:panelGrid columns="2">
+            <h:outputLabel for="customerName">Customer name</h:outputLabel>
+            <h:inputText id="customerName" value="#{users.customerToCreate.name}" required="true" label="Name"/>
+            <h:outputLabel for="customerSurname">Customer surname</h:outputLabel>
+            <h:inputText id="customerSurname" value="#{users.customerToCreate.surname}" required="true" label="Surname"/>
+            <h:commandButton value="Add a new customer" action="#{users.createCustomer}" />
+        </h:panelGrid>
+    </h:form>
+    <br />
+    <br />
+    <h2>Employees:</h2>
+    <ol>
+        <ui:repeat value="#{users.allEmployees}" var="employee">
+            <li>
+                <h:outputText value="#{employee.name} #{employee.surname} | "/>
+                <h:link value=" Deliveries..." outcome="employee?employeeId=#{employee.id}"/>
+            </li>
+        </ui:repeat>
+    </ol>
+    <h:form>
+        <h:panelGrid columns="2">
+                <h:outputLabel for="employeeName">Employee name</h:outputLabel>
+            <h:inputText id="employeeName" value="#{users.employeeToCreate.name}" required="true" label="Name"/>
+            <h:outputLabel for="employeeSurname">Employee surname</h:outputLabel>
+            <h:inputText id="employeeSurname" value="#{users.employeeToCreate.surname}" required="true" label="Surname"/>
+            <h:commandButton value="Add a new employee" action="#{users.createEmployee()}" />
+        </h:panelGrid>
     </h:form>
 </h:body>
 </html>

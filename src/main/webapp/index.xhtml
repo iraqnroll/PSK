@@ -32,6 +32,7 @@
             <li>
                 <h:outputText value="#{employee.name} #{employee.surname} | "/>
                 <h:link value=" Deliveries..." outcome="employee?employeeId=#{employee.id}"/>
+                <h:link value=" Deliveries MyBatis" outcome="/myBatis/deliveries?employeeId=#{employee.id}"/>
             </li>
         </ui:repeat>
     </ol>

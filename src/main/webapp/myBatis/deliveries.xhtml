@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head/>
+<h:body>
+    <h2>
+        <h:outputText value="#{employeeMyBatis.currentEmployee.employeeName} #{employeeMyBatis.currentEmployee.employeeSurname} details:"/>
+    </h2>
+    <h3>Packages to deliver:</h3>
+    <h:dataTable value="#{employeeMyBatis.currentEmployee.deliveries}" var="packageToDeliver" border="1">
+        <h:column>
+            <f:facet name="header">ID</f:facet>
+            #{packageToDeliver.id}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Receiver</f:facet>
+            #{packageToDeliver.receiver.customerName} #{packageToDeliver.receiver.customerSurname}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Shipping address</f:facet>
+            #{packageToDeliver.packageShipAddress}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Weight</f:facet>
+            #{packageToDeliver.packageWeight}
+        </h:column>
+    </h:dataTable>
+    <h2>Set package for delivery</h2>
+    <h:form>
+        <h:panelGrid columns="1">
+            <h:outputLabel for="package">Package</h:outputLabel>
+            <h:selectOneMenu id="package" value="#{employeeMyBatis.deliveryToAddId}" label="Package">
+                <f:selectItems value="#{employeeMyBatis.availableDeliveries}" var="rec"
+                               itemLabel="#{rec.sender.customerName} #{rec.sender.customerSurname} #{rec.packageShipAddress}" itemValue="#{rec.id}"/>
+            </h:selectOneMenu>
+            <br />
+            <h:commandButton value="Set" action="#{employeeMyBatis.createNewDelivery()}">
+                <f:param name="employeeId" value="#{employeeMyBatis.currentEmployee.id}"/>
+            </h:commandButton>
+        </h:panelGrid>
+    </h:form>
+    <h2>Remove delivery</h2>
+    <h:form>
+        <h:panelGrid columns="1">
+            <h:outputLabel for="package2">Package</h:outputLabel>
+            <h:selectOneMenu id="package2" value="#{employeeMyBatis.deliveryToDeleteId}" label="Package">
+                <f:selectItems value="#{employeeMyBatis.currentEmployee.deliveries}" var="rec"
+                               itemLabel="#{rec.sender.customerName} #{rec.sender.customerSurname} #{rec.packageShipAddress}" itemValue="#{rec.id}"/>
+            </h:selectOneMenu>
+            <br />
+            <h:commandButton value="Remove" action="#{employeeMyBatis.deleteDelivery()}">
+                <f:param name="employeeId" value="#{employeeMyBatis.currentEmployee.id}"/>
+            </h:commandButton>
+        </h:panelGrid>
+    </h:form>
+</h:body>
+</html>

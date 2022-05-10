@@ -8,6 +8,7 @@ import vu.lt.persistence.CustomerDAO;
 import vu.lt.persistence.EmployeeDAO;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
 import javax.transaction.Transactional;

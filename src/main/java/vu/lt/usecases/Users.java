@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import vu.lt.entities.Customer;
 import vu.lt.entities.Employee;
+import vu.lt.interceptors.LoggedInvocation;
 import vu.lt.persistence.CustomerDAO;
 import vu.lt.persistence.EmployeeDAO;
 
@@ -12,10 +13,12 @@ import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import java.io.Serializable;
 import java.util.List;
 
 @Model
-public class Users {
+@LoggedInvocation
+public class Users implements Serializable {
 
     @Inject
     private CustomerDAO customerDAO;

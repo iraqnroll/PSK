@@ -50,6 +50,6 @@ public class Customer implements Serializable {
 
     @Override
     public String toString() {
-        return this.name + " " + this.surname;
+        return this.name + " " + this.surname + " " + this.version;
     }
 }

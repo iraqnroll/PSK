@@ -10,10 +10,10 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 @ApplicationScoped
-public class PackageDAO {
+public class PackageDAO implements IPackageDAO {
 
     @Inject
-    private EntityManager em;
+    protected EntityManager em;
 
     public void create(Package pkg){
         em.persist(pkg);
@@ -52,5 +52,16 @@ public class PackageDAO {
 
     public Package update(Package pkg){
         return em.merge(pkg);
+    }
+
+    public Long countPackages(Integer Id){
+        return em.createNamedQuery("Package.countByReceiver", Long.class)
+                .setParameter("receiverId", Id)
+                .getSingleResult();
+    }
+
+    public Long countAllPackages(){
+        return em.createNamedQuery("Package.countAllPackages", Long.class)
+                .getSingleResult();
     }
 }

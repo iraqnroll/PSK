@@ -8,7 +8,7 @@
 <h:head/>
 <h:body>
     <h2>
-        <h:outputText value="#{customerDetails.customer.name} #{customerDetails.customer.surname} details:"/>
+        <h:outputText value="#{customerDetails.customer.name} #{customerDetails.customer.surname} [#{customerDetails.receivedPkgCount}] #{customerDetails.customer.version} details:"/>
     </h2>
     <h3>Packages to receive :</h3>
     <h:dataTable value="#{customerDetails.customer.packagesToReceive}" var="packageToReceive" border="1">
@@ -61,7 +61,7 @@
     <h:form>
         <h:panelGrid columns="3">
             <h:outputLabel for="weight">Package weight</h:outputLabel>
-            <h:inputText id="weight" value="#{customerDetails.packageToSendWeight}" required="true" label="Package weight"/>
+            <h:inputText id="weight" value="#{customerDetails.packageToSendWeight}"  required="true" label="Package weight"/>
             <br />
             <h:outputLabel for="address">Shipping address</h:outputLabel>
             <h:inputText id="address" value="#{customerDetails.packageToSendShipAddress}" required="true" label="Shipping Address"/>
@@ -90,6 +90,25 @@
                 <f:param name="customerId" value="#{customerDetails.customer.id}"/>
             </h:commandButton>
         </h:panelGrid>
+    </h:form>
+    <h2>Update customer details : </h2>
+    <h:form>
+        <h:panelGrid columns="2">
+            <h:outputLabel for="employeeName">Employee name</h:outputLabel>
+            <h:inputText id="employeeName" value="#{customerDetails.customer.name}" required="true" label="Name"/>
+            <h:outputLabel for="employeeSurname">Employee surname</h:outputLabel>
+            <h:inputText id="employeeSurname" value="#{customerDetails.customer.surname}" required="true" label="Surname"/>
+            <h:commandButton value="Update" action="#{customerDetails.updateCustomer()}">
+                <f:param name="customerId" value="#{customerDetails.customer.id}"/>
+            </h:commandButton>
+        </h:panelGrid>
+        <h:outputText value="Value was already modified by other user. If you want to override it - try again" rendered="#{param['error'] == 'optimistic-lock-exception'}" />
+    </h:form>
+    <h:form>
+        <h:outputText value="#{generatePackageWeight.status}" />
+        <h:commandButton value="Generate package weight?" disabled="#{generatePackageWeight.taskRunning}" action="#{generatePackageWeight.generateWeight()}">
+            <f:param name="customerId" value="#{customerDetails.customer.id}"/>
+        </h:commandButton>
     </h:form>
 </h:body>
 </html>

@@ -19,7 +19,10 @@ import java.util.List;
         @NamedQuery(name = "Package.findAll", query = "select p from Package p"),
         @NamedQuery(name = "Package.findByReceiver", query = "select p from Package p where p.receiver.Id = :receiverId"),
         @NamedQuery(name = "Package.findBySender", query = "select p from Package p where p.sender.Id = :senderId"),
-        @NamedQuery(name = "Package.findByCourier", query = "select  p from Package p join p.couriers c where c.id = :courierId")
+        @NamedQuery(name = "Package.findByCourier", query = "select  p from Package p join p.couriers c where c.id = :courierId"),
+        @NamedQuery(name = "Package.countByReceiver", query = "select count(p) from Package p where p.receiver.Id = :receiverId"),
+        @NamedQuery(name = "Package.countBySender", query = "select count(p) from Package p where p.sender.Id = :senderId"),
+        @NamedQuery(name = "Package.countAllPackages", query = "select count(p) from Package p")
 })
 public class Package implements Serializable {
 

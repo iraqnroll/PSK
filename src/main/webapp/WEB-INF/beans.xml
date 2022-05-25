@@ -9,4 +9,10 @@
     <interceptors>
         <class>vu.lt.interceptors.MethodLogger</class>
     </interceptors>
+    <alternatives>
+        <class>vu.lt.persistence.ExtendedPackageDAO</class>
+    </alternatives>
+    <decorators>
+        <class>vu.lt.interceptors.PackageCreationDecorator</class>
+    </decorators>
 </beans>

@@ -58,19 +58,15 @@ public class CustomerController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     public Response updateCustomer(@PathParam("id") final Integer id, CustomerDto CustomerData){
-        try{
-            Customer existingCustomer = customerDAO.findById(id);
-            if(existingCustomer == null){
-                return Response.status(Response.Status.NOT_FOUND).build();
-            }
-            existingCustomer.setName(CustomerData.getName());
-            existingCustomer.setSurname(CustomerData.getSurname());
 
-            customerDAO.update(existingCustomer);
-            return Response.ok().build();
+        Customer existingCustomer = customerDAO.findById(id);
+        if(existingCustomer == null){
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
-        catch (OptimisticLockException ole){
-            return Response.status(Response.Status.CONFLICT).build();
-        }
+        existingCustomer.setName(CustomerData.getName());
+        existingCustomer.setSurname(CustomerData.getSurname());
+
+        customerDAO.update(existingCustomer);
+        return Response.ok().build();
     }
 }

@@ -5,6 +5,8 @@ import vu.lt.entities.Customer;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
+import javax.persistence.OptimisticLockException;
 import java.util.List;
 
 @ApplicationScoped
@@ -18,7 +20,13 @@ public class CustomerDAO {
     }
 
     public Customer update(Customer customer){
-        return em.merge(customer);
+        Customer newestCustomerVer = em.find(Customer.class, customer.getId());
+        if(newestCustomerVer.getVersion() != customer.getVersion()){
+            throw new OptimisticLockException();
+        }
+        else{
+            return em.merge(customer);
+        }
     }
 
     public List<Customer> findAll(){
@@ -28,5 +36,9 @@ public class CustomerDAO {
 
     public Customer findById(Integer id){
         return em.find(Customer.class, id);
+    }
+
+    public void LockEntity(Customer customer){
+        em.lock(customer, LockModeType.OPTIMISTIC);
     }
 }
